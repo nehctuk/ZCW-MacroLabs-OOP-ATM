@@ -12,14 +12,17 @@ public class Account {
     }
 
     public Account(String accountType) {
-        this.accountType = accountType.toLowerCase();
-        this.balance = 0.0;
-        this.accountNum = totalAccountNum;
+        this(accountType, 0);
     }
 
     public Account(String accountType, double balance) {
-        this(accountType);
+        this(accountType, balance, totalAccountNum);
+    }
+
+    private Account(String accountType, double balance, int accountNum){
+        this.accountType = accountType;
         this.balance = balance;
+        this.accountNum = accountNum;
     }
 
     public String getAccountType() {
@@ -33,10 +36,10 @@ public class Account {
     @Override
     public String toString() {
         return "Account: " +
-                "accountNum=" + accountNum +
-                ", balance=" + String.format("$%.2f", balance) +
-                ", transactions=" + transactions +
-                ", accountType='" + accountType + '\'';
+                "accountNum: " + accountNum +
+                ", balance: " + String.format("$%.2f", balance) +
+                ", transactions: " + transactions +
+                ", accountType: '" + accountType + '\'';
     }
 }
 
