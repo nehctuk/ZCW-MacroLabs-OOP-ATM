@@ -11,6 +11,8 @@ public class Account {
         totalAccountNum++;
     }
 
+
+
     public Account(String accountType) {
         this(accountType, 0);
     }
@@ -31,6 +33,14 @@ public class Account {
 
     public double getBalance() {
         return balance;
+    }
+
+    public int getAccountNum() {
+        return accountNum;
+    }
+
+    public ArrayList<String> getTransactions() {
+        return transactions;
     }
 
     @Override

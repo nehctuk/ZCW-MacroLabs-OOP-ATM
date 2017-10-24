@@ -7,6 +7,11 @@ public class UserFactory {
         CLI_Logic.setCurrentPassword(password);
     }
 
+    public static void addNewUser (User user) {
+        UserWarehouse.addUser(user);
+        CLI_Logic.setCurrentUser(user);
+    }
+
 
 }
 

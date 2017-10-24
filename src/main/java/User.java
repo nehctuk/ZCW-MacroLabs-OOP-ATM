@@ -10,6 +10,8 @@ public class User {
         this.password = password;
     }
 
+
+
     protected void createAccount(String accountType) {
         Account newAccount = new Account(accountType);
         accounts.add(newAccount);
@@ -36,8 +38,16 @@ public class User {
         this.password = password;
     }
 
-    protected ArrayList<Account> getAccounts() {
-        return accounts;
+    protected String getAccounts() {
+        String output = "";
+        for (Account account : accounts) {
+            output +=
+                    "Account Number: "+account.getAccountNum()+
+                    ", Account Type: " + account.getAccountType() +
+                    ", Account Balance: " + String.format("$%,.2f", account.getBalance()) + "\n";
+        }
+
+        return output;
     }
 
 }

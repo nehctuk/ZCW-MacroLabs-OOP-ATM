@@ -34,7 +34,9 @@ public class CLI_Interface {
 
         String username = CLI_Interface.getStringInput("Please enter a username.");
         String password = CLI_Interface.getStringInput("Please enter a password.");
-        UserFactory.addNewUser(username,password);
+        User user = new User(username, password);
+        UserFactory.addNewUser(user);
+
         String answer = "Your Username is: "
                 +username+"\nYour Password is: "
                 +password +"\n\nPlease don't forget these!\n";
