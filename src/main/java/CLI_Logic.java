@@ -88,6 +88,11 @@ public class CLI_Logic {
             CLI_Interface.printIntroMenu();
             CLI_Logic.menuSelection();
         }
+        else if (selection == 1) {
+            CLI_Interface.depositAttempt();
+            CLI_Interface.printIntroMenu();
+            CLI_Logic.menuSelection();
+        }
         else if (selection == 3) {
             CLI_Interface.createNewBankAccount();
             CLI_Logic.menuSelection();
