@@ -1,61 +1,50 @@
-import java.util.Scanner;
-
-
-public class CLI_Logic {
+public class AtmLogic {
     private static String currentUsername;
     private static String currentPassword;
     private static User currentUser;
 
-    public static User getCurrentUser() {
-        return currentUser;
-    }
+    public static void setCurrentUser(User currentUser) { AtmLogic.currentUser = currentUser; }
+    public static User getCurrentUser() { return currentUser; }
+    public static String getCurrentUsername() { return AtmLogic.currentUsername; }
+    public static void setCurrentUsername(String username) { AtmLogic.currentUsername = username; }
+    public static String getCurrentPassword() { return AtmLogic.currentPassword; }
+    public static void setCurrentPassword(String password) { AtmLogic.currentPassword = password; }
 
-    public static void setCurrentUser(User currentUser) {
-        CLI_Logic.currentUser = currentUser;
-    }
 
-    public static String getCurrentUsername() {
-        return CLI_Logic.currentUsername;
-    }
 
-    public static void setCurrentUsername(String username) {
-        CLI_Logic.currentUsername = username;
-    }
 
-    public static String getCurrentPassword() {
-        return CLI_Logic.currentPassword;
-    }
 
-    public static void setCurrentPassword(String password) {
-        CLI_Logic.currentPassword = password;
-    }
 
+
+
+
+    
     public static void IntroLogic() {
         String welcomeMessage = CLI_Interface.welcomeMessage();
         if ("Yes".equalsIgnoreCase(welcomeMessage)) {
             CLI_Interface.createNewUser();
             CLI_Interface.createNewBankAccount();
-            CLI_Logic.menuSelection();
+            AtmLogic.menuSelection();
         } else if ("No".equalsIgnoreCase(welcomeMessage)) {
-            CLI_Logic.login();
-            CLI_Logic.menuSelection();
+            AtmLogic.login();
+            AtmLogic.menuSelection();
         }
         else {
             CLI_Interface.InvalidResponse(welcomeMessage);
-            CLI_Logic.IntroLogic();
+            AtmLogic.IntroLogic();
             }
         }
 
     private static void login() {
         CLI_Interface.getLoginDetails();
-        String currentUser = CLI_Logic.getCurrentUsername();
-        String currentPassword = CLI_Logic.getCurrentPassword();
+        String currentUser = AtmLogic.getCurrentUsername();
+        String currentPassword = AtmLogic.getCurrentPassword();
         boolean accountFound = false;
 
         for (User user: UserWarehouse.getUsers()) {
             if (currentUser.equalsIgnoreCase(user.getUsername()) &&
                     currentPassword.equals(user.getPassword())) {
-                CLI_Logic.setCurrentUser(user);
+                AtmLogic.setCurrentUser(user);
                 CLI_Interface.printIntroMenu();
                 accountFound = true;
             }
@@ -65,10 +54,10 @@ public class CLI_Logic {
             String response = CLI_Interface.loginFalure();
 
             if ("Yes".equalsIgnoreCase(response)) {
-                CLI_Logic.login();
+                AtmLogic.login();
             }
             else if ("No".equalsIgnoreCase(response)) {
-                CLI_Logic.IntroLogic();
+                AtmLogic.IntroLogic();
             }
             else {
                 CLI_Interface.InvalidResponse(response);
@@ -84,21 +73,36 @@ public class CLI_Logic {
     public static void menuSelection() {
         int selection = Integer.parseInt(CLI_Interface.getStringInput());
         if (selection == 0) {
-            CLI_Interface.withDrawAttempt();
+            CLI_Interface.withDrawAttempt("withdraw");
             CLI_Interface.printIntroMenu();
-            CLI_Logic.menuSelection();
+            AtmLogic.menuSelection();
         }
         else if (selection == 1) {
-            CLI_Interface.depositAttempt();
+            CLI_Interface.depositAttempt("deposit");
             CLI_Interface.printIntroMenu();
-            CLI_Logic.menuSelection();
+            AtmLogic.menuSelection();
+        }
+        else if (selection == 2) {
+            CLI_Interface.transferWithinAccounts();
+            CLI_Interface.printIntroMenu();
+            AtmLogic.menuSelection();
         }
         else if (selection == 3) {
             CLI_Interface.createNewBankAccount();
-            CLI_Logic.menuSelection();
+            AtmLogic.menuSelection();
+        }
+        else if (selection == 4) {
+
+
+
+        }
+        else if (selection == 6) {
+            CLI_Interface.checkBalance();
+            CLI_Interface.printIntroMenu();
+            AtmLogic.menuSelection();
         }
         else if (selection == 7) {
-            CLI_Logic.logout();
+            AtmLogic.logout();
         }
     }
 
@@ -107,7 +111,7 @@ public class CLI_Logic {
         setCurrentUsername(null);
         setCurrentPassword(null);
         setCurrentUser(null);
-        CLI_Logic.IntroLogic();
+        AtmLogic.IntroLogic();
     }
 
 
