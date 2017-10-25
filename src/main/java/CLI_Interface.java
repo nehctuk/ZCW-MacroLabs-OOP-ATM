@@ -87,8 +87,7 @@ public class CLI_Interface {
     }
 
     private static Account getAccountAttempt() {
-
-        System.out.println(AtmLogic.getCurrentUser().getAccounts());
+        System.out.println(AtmLogic.getCurrentUser().getAccountsToString());
         int accountSelecton = Integer.parseInt(CLI_Interface.getStringInput("Please choose a valid account number."));
         Account account = AtmLogic.getCurrentUser().getSpecificAccount(accountSelecton);
 

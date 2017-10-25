@@ -39,23 +39,16 @@ public class Atm_LogicTest {
         Assert.assertEquals(expected,actual);
     }
 
-
-
-
-
-
-
-
-
-
-
     @Test
     public void IntroLogicTest_InputYes() {
         String welcomeMessage = "Yes";
         boolean expected = true;
         boolean actual = "Yes".equalsIgnoreCase(welcomeMessage);
         Assert.assertEquals(expected,actual);
-        }
+    }
+
+
+
     @Test
     public void IntroLogicTest_InputNo() {
         String welcomeMessage = "No";

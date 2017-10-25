@@ -18,14 +18,15 @@ public class AtmLogic {
 
 
 
-    
+
     public static void IntroLogic() {
         String welcomeMessage = CLI_Interface.welcomeMessage();
         if ("Yes".equalsIgnoreCase(welcomeMessage)) {
             CLI_Interface.createNewUser();
             CLI_Interface.createNewBankAccount();
             AtmLogic.menuSelection();
-        } else if ("No".equalsIgnoreCase(welcomeMessage)) {
+        }
+        else if ("No".equalsIgnoreCase(welcomeMessage)) {
             AtmLogic.login();
             AtmLogic.menuSelection();
         }
