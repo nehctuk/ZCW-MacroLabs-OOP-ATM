@@ -4,6 +4,17 @@ public class AtmConsole {
     private String currentUsername;
     private String currentPassword;
 
+    public static String getStringInput() {
+        Scanner sc = new Scanner(System.in);
+        return sc.nextLine();
+    }
+
+    public static String getStringInput(String input) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(input);
+        return sc.nextLine();
+    }
+
     public static String welcomeMessage() {
         String response = AtmConsole.getStringInput(
                 "Welcome to the ATM!\n" +
@@ -34,9 +45,7 @@ public class AtmConsole {
 
         String username = AtmConsole.getStringInput("Please enter a username.");
         String password = AtmConsole.getStringInput("Please enter a password.");
-        User user = new User(username, password);
-        UserFactory.addNewUser(user);
-
+        AtmLogic.createAndAddUser(username, password);
         String answer = "Your Username is: "
                 +username+"\nYour Password is: "
                 +password +"\n\nPlease don't forget these!\n";
@@ -57,17 +66,6 @@ public class AtmConsole {
         return input;
     }
 
-    public static String getStringInput(String input) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println(input);
-        return sc.nextLine();
-    }
-
-    public static String getStringInput() {
-        Scanner sc = new Scanner(System.in);
-        return sc.nextLine();
-    }
-
     public static void createNewBankAccount() {
         String accountType = AtmConsole.getStringInput("Please enter an account type to create.");
         double balance = Double.parseDouble(AtmConsole.getStringInput("Please enter the starting balance of your account."));
@@ -86,11 +84,10 @@ public class AtmConsole {
         System.out.println("Your current balance is: "+String.format("$%,.2f",accountBalance)+"\n");
     }
 
-    private static Account getAccountAttempt() {
+    protected static Account getAccountAttempt() {
         System.out.println(AtmLogic.getCurrentUser().getAccountsToString());
         int accountSelecton = Integer.parseInt(AtmConsole.getStringInput("Please choose a valid account number."));
         Account account = AtmLogic.getCurrentUser().getSpecificAccount(accountSelecton);
-
 
         if (account == null) {
             System.err.println("Not a valid account number. Please return a valid account number.");
@@ -135,6 +132,8 @@ public class AtmConsole {
     }
 
     public static double validAmount(Account account, double amount, String withdrawType) {
+
+
         double accountBalance = account.getBalance();
         while (amount <= 0 || amount > accountBalance) {
             if (amount <= 0) {
@@ -146,6 +145,9 @@ public class AtmConsole {
 
             amount = Double.parseDouble(AtmConsole.getStringInput("Enter an amount you would like to "+withdrawType+"."));
         }
+
+
+
         return amount;
     }
 
@@ -156,22 +158,23 @@ public class AtmConsole {
         return account;
     }
 
-    protected static void closeAccount() {
-        Account account = AtmConsole.getAccountAttempt();
-        if (account.getBalance() > 0) {
-            double input = Double.parseDouble(AtmConsole.getStringInput(
-            "In order to close the account you must transfer or withdraw all funds\n"
-            +"1: Transfer\n"
-            +"2: Withdraw"));
-            if (input == 1) {
-                AtmConsole.transferWithinAccounts();
-            }
-            else if (input == 2) {
-                AtmConsole.withDrawAttempt("withdraw");
-            }
-
-        }
-    }
+    // Did not have to time to finish
+//    protected static void closeAccount() {
+//        Account account = AtmConsole.getAccountAttempt();
+//        if (account.getBalance() > 0) {
+//            double input = Double.parseDouble(AtmConsole.getStringInput(
+//            "In order to close the account you must transfer or withdraw all funds\n"
+//            +"1: Transfer\n"
+//            +"2: Withdraw"));
+//            if (input == 1) {
+//                AtmConsole.transferWithinAccounts();
+//            }
+//            else if (input == 2) {
+//                AtmConsole.withDrawAttempt("withdraw");
+//            }
+//
+//        }
+//    }
 
 
     public static Account withDrawAttempt(String withdrawType) {

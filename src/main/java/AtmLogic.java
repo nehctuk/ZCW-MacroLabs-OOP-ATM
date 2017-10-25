@@ -10,6 +10,11 @@ public class AtmLogic {
     public static String getCurrentPassword() { return AtmLogic.currentPassword; }
     public static void setCurrentPassword(String password) { AtmLogic.currentPassword = password; }
 
+    public static void createAndAddUser(String username, String password) {
+        User user = new User(username, password);
+        UserFactory.addNewUser(user);
+    }
+
     public static void IntroLogic() {
         String welcomeMessage = AtmConsole.welcomeMessage();
         if ("Yes".equalsIgnoreCase(welcomeMessage)) {
@@ -56,7 +61,13 @@ public class AtmLogic {
         currentUser.createAccount(accountType, balance);
     }
 
-
+    public static void logout() {
+        AtmConsole.exitMessage();
+        setCurrentUsername(null);
+        setCurrentPassword(null);
+        setCurrentUser(null);
+        AtmLogic.IntroLogic();
+    }
 
     public static void menuSelection() {
 
@@ -102,16 +113,17 @@ public class AtmLogic {
                 AtmLogic.menuSelection();
                 break;
         }
-
     }
 
-    public static void logout() {
-        AtmConsole.exitMessage();
-        setCurrentUsername(null);
-        setCurrentPassword(null);
-        setCurrentUser(null);
-        AtmLogic.IntroLogic();
-    }
+
+
+    Account account = AtmConsole.getAccountAttempt();
+    double accountBalance = account.getBalance();
+
+
+
+
+
 
 
 }

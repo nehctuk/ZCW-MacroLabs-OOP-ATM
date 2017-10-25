@@ -13,6 +13,7 @@ public class Atm_LogicTest {
         username = "andrew";
         password = "1234";
         user = new User(username,password);
+        user.createAccount("savings", 1000);
     }
 
     @Test
@@ -62,6 +63,8 @@ public class Atm_LogicTest {
         // ask about test
 
     }
+
+
 
 }
 
