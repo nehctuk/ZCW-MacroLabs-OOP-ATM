@@ -5,12 +5,27 @@ public class User {
     private String password;
     private ArrayList<Account> accounts = new ArrayList<Account>();
 
+    protected int getNumberOfAccounts() {
+        return accounts.size();
+    }
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    public Account getSpecificAccount(int index) {
+        Account output = null;
 
+        for (Account account:accounts) {
+            if (account.getAccountNum() == index) {
+                output = account;
+                return output;
+            }
+        }
+
+        return output;
+    }
 
     protected void createAccount(String accountType) {
         Account newAccount = new Account(accountType);

@@ -73,9 +73,7 @@ public class CLI_Logic {
             else {
                 CLI_Interface.InvalidResponse(response);
             }
-
         }
-
     }
 
 
@@ -86,8 +84,9 @@ public class CLI_Logic {
     public static void menuSelection() {
         int selection = Integer.parseInt(CLI_Interface.getStringInput());
         if (selection == 0) {
-            //Need to update
-            System.out.println(currentUser.getAccounts());
+            CLI_Interface.withDrawAttempt();
+            CLI_Interface.printIntroMenu();
+            CLI_Logic.menuSelection();
         }
         else if (selection == 3) {
             CLI_Interface.createNewBankAccount();
