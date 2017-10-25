@@ -59,7 +59,8 @@ public class Atm_LogicTest {
 
     @Test
     public void loginTest(){
-        boolean expected = true;
+        // ask about test
+
     }
 
 }

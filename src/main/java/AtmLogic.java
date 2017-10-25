@@ -10,20 +10,11 @@ public class AtmLogic {
     public static String getCurrentPassword() { return AtmLogic.currentPassword; }
     public static void setCurrentPassword(String password) { AtmLogic.currentPassword = password; }
 
-
-
-
-
-
-
-
-
-
     public static void IntroLogic() {
-        String welcomeMessage = CLI_Interface.welcomeMessage();
+        String welcomeMessage = AtmConsole.welcomeMessage();
         if ("Yes".equalsIgnoreCase(welcomeMessage)) {
-            CLI_Interface.createNewUser();
-            CLI_Interface.createNewBankAccount();
+            AtmConsole.createNewUser();
+            AtmConsole.createNewBankAccount();
             AtmLogic.menuSelection();
         }
         else if ("No".equalsIgnoreCase(welcomeMessage)) {
@@ -31,28 +22,23 @@ public class AtmLogic {
             AtmLogic.menuSelection();
         }
         else {
-            CLI_Interface.InvalidResponse(welcomeMessage);
+            AtmConsole.InvalidResponse(welcomeMessage);
             AtmLogic.IntroLogic();
             }
         }
 
     private static void login() {
-        CLI_Interface.getLoginDetails();
+        AtmConsole.getLoginDetails();
         String currentUser = AtmLogic.getCurrentUsername();
         String currentPassword = AtmLogic.getCurrentPassword();
-        boolean accountFound = false;
 
-        for (User user: UserWarehouse.getUsers()) {
-            if (currentUser.equalsIgnoreCase(user.getUsername()) &&
-                    currentPassword.equals(user.getPassword())) {
-                AtmLogic.setCurrentUser(user);
-                CLI_Interface.printIntroMenu();
-                accountFound = true;
-            }
+        boolean accountFound = UserWarehouse.doesUserExist(currentUser,currentPassword);
 
+        if (accountFound) {
+            AtmConsole.printIntroMenu();
         }
-        if (!accountFound){
-            String response = CLI_Interface.loginFalure();
+        else {
+            String response = AtmConsole.loginFalure();
 
             if ("Yes".equalsIgnoreCase(response)) {
                 AtmLogic.login();
@@ -61,54 +47,66 @@ public class AtmLogic {
                 AtmLogic.IntroLogic();
             }
             else {
-                CLI_Interface.InvalidResponse(response);
+                AtmConsole.InvalidResponse(response);
             }
         }
     }
-
 
     public static void addAccountToUser(String accountType, double balance) {
         currentUser.createAccount(accountType, balance);
     }
 
+
+
     public static void menuSelection() {
-        int selection = Integer.parseInt(CLI_Interface.getStringInput());
-        if (selection == 0) {
-            CLI_Interface.withDrawAttempt("withdraw");
-            CLI_Interface.printIntroMenu();
-            AtmLogic.menuSelection();
-        }
-        else if (selection == 1) {
-            CLI_Interface.depositAttempt("deposit");
-            CLI_Interface.printIntroMenu();
-            AtmLogic.menuSelection();
-        }
-        else if (selection == 2) {
-            CLI_Interface.transferWithinAccounts();
-            CLI_Interface.printIntroMenu();
-            AtmLogic.menuSelection();
-        }
-        else if (selection == 3) {
-            CLI_Interface.createNewBankAccount();
-            AtmLogic.menuSelection();
-        }
-        else if (selection == 4) {
 
+        int selection = Integer.parseInt(AtmConsole.getStringInput());
 
+        switch (selection) {
+            case 0:
+                AtmConsole.withDrawAttempt("withdraw");
+                AtmConsole.printIntroMenu();
+                AtmLogic.menuSelection();
+                break;
+            case 1:
+                AtmConsole.depositAttempt("deposit");
+                AtmConsole.printIntroMenu();
+                AtmLogic.menuSelection();
+                break;
+            case 2:
+                AtmConsole.transferWithinAccounts();
+                AtmConsole.printIntroMenu();
+                AtmLogic.menuSelection();
+                break;
+            case 3:
+                AtmConsole.createNewBankAccount();
+                AtmLogic.menuSelection();
+                break;
+            case 4:
 
+                break;
+            case 5:
+
+                break;
+            case 6:
+                AtmConsole.checkBalance();
+                AtmConsole.printIntroMenu();
+                AtmLogic.menuSelection();
+                break;
+            case 7:
+                AtmLogic.logout();
+                break;
+            default:
+                AtmConsole.InvalidResponse(""+selection+"\n");
+                AtmConsole.printIntroMenu();
+                AtmLogic.menuSelection();
+                break;
         }
-        else if (selection == 6) {
-            CLI_Interface.checkBalance();
-            CLI_Interface.printIntroMenu();
-            AtmLogic.menuSelection();
-        }
-        else if (selection == 7) {
-            AtmLogic.logout();
-        }
+
     }
 
     public static void logout() {
-        CLI_Interface.exitMessage();
+        AtmConsole.exitMessage();
         setCurrentUsername(null);
         setCurrentPassword(null);
         setCurrentUser(null);

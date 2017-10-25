@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-public class CLI_Interface {
+public class AtmConsole {
     private String currentUsername;
     private String currentPassword;
 
     public static String welcomeMessage() {
-        String response = CLI_Interface.getStringInput(
+        String response = AtmConsole.getStringInput(
                 "Welcome to the ATM!\n" +
                         "Are you new User?");
         return response;
@@ -32,8 +32,8 @@ public class CLI_Interface {
 
     public static void createNewUser() {
 
-        String username = CLI_Interface.getStringInput("Please enter a username.");
-        String password = CLI_Interface.getStringInput("Please enter a password.");
+        String username = AtmConsole.getStringInput("Please enter a username.");
+        String password = AtmConsole.getStringInput("Please enter a password.");
         User user = new User(username, password);
         UserFactory.addNewUser(user);
 
@@ -44,15 +44,15 @@ public class CLI_Interface {
     }
 
     public static void getLoginDetails() {
-        String username = CLI_Interface.getStringInput("Please enter your username.");
-        String password = CLI_Interface.getStringInput("Please enter your password.");
+        String username = AtmConsole.getStringInput("Please enter your username.");
+        String password = AtmConsole.getStringInput("Please enter your password.");
         AtmLogic.setCurrentUsername(username);
         AtmLogic.setCurrentPassword(password);
     }
 
     public static String loginFalure() {
         System.out.println("Username and password incorrect.");
-        String input = CLI_Interface.getStringInput("Would you like to try and login again?");
+        String input = AtmConsole.getStringInput("Would you like to try and login again?");
 
         return input;
     }
@@ -69,11 +69,11 @@ public class CLI_Interface {
     }
 
     public static void createNewBankAccount() {
-        String accountType = CLI_Interface.getStringInput("Please enter an account type to create.");
-        double balance = Double.parseDouble(CLI_Interface.getStringInput("Please enter the starting balance of your account."));
+        String accountType = AtmConsole.getStringInput("Please enter an account type to create.");
+        double balance = Double.parseDouble(AtmConsole.getStringInput("Please enter the starting balance of your account."));
         AtmLogic.addAccountToUser(accountType, balance);
         System.out.println("Your account has been completed, you will be redirected to the main menu.\n");
-        CLI_Interface.printIntroMenu();
+        AtmConsole.printIntroMenu();
     }
 
     public static void exitMessage() {
@@ -81,20 +81,20 @@ public class CLI_Interface {
     }
 
     protected static void checkBalance() {
-        Account account = CLI_Interface.getAccountAttempt();
+        Account account = AtmConsole.getAccountAttempt();
         double accountBalance = account.getBalance();
         System.out.println("Your current balance is: "+String.format("$%,.2f",accountBalance)+"\n");
     }
 
     private static Account getAccountAttempt() {
         System.out.println(AtmLogic.getCurrentUser().getAccountsToString());
-        int accountSelecton = Integer.parseInt(CLI_Interface.getStringInput("Please choose a valid account number."));
+        int accountSelecton = Integer.parseInt(AtmConsole.getStringInput("Please choose a valid account number."));
         Account account = AtmLogic.getCurrentUser().getSpecificAccount(accountSelecton);
 
 
         if (account == null) {
             System.err.println("Not a valid account number. Please return a valid account number.");
-            account = CLI_Interface.getAccountAttempt();
+            account = AtmConsole.getAccountAttempt();
         }
 
         return account;
@@ -108,25 +108,25 @@ public class CLI_Interface {
 
         else {
             System.out.println("This is the account you will transfer from.");
-            Account accountFrom = CLI_Interface.getAccountAttempt();
+            Account accountFrom = AtmConsole.getAccountAttempt();
 
             System.out.println("This is the account you will transfer into.");
-            Account accountTo = CLI_Interface.getAccountAttempt();
+            Account accountTo = AtmConsole.getAccountAttempt();
 
             while (accountFrom == accountTo) {
                 System.out.println("\nThe account selected is the same as the the account you would like to transfer from.");
                 System.out.println("Please select a different transfer to account.");
-                accountTo = CLI_Interface.getAccountAttempt();
+                accountTo = AtmConsole.getAccountAttempt();
             }
 
 
             double transferAmount = Double.parseDouble(
-                    CLI_Interface.getStringInput("Enter an amount you would like to transfer." ));
+                    AtmConsole.getStringInput("Enter an amount you would like to transfer." ));
 
             transferAmount = validAmount(accountFrom, transferAmount, "transfer");
 
-            accountFrom = CLI_Interface.validWithdraw(accountFrom, transferAmount, "transfer");
-            accountTo = CLI_Interface.validDeposit(accountTo, transferAmount, "transfer");
+            accountFrom = AtmConsole.validWithdraw(accountFrom, transferAmount, "transfer");
+            accountTo = AtmConsole.validDeposit(accountTo, transferAmount, "transfer");
 
             System.out.println("Transfer complete.\n");
             System.out.println("Your "+accountFrom.getAccountType() +" balance is: "+ String.format("$%,.2f",accountFrom.getBalance()));
@@ -144,7 +144,7 @@ public class CLI_Interface {
                 System.out.println("Insufficient funds, please enter a lower amount.\n");
             }
 
-            amount = Double.parseDouble(CLI_Interface.getStringInput("Enter an amount you would like to "+withdrawType+"."));
+            amount = Double.parseDouble(AtmConsole.getStringInput("Enter an amount you would like to "+withdrawType+"."));
         }
         return amount;
     }
@@ -157,17 +157,17 @@ public class CLI_Interface {
     }
 
     protected static void closeAccount() {
-        Account account = CLI_Interface.getAccountAttempt();
+        Account account = AtmConsole.getAccountAttempt();
         if (account.getBalance() > 0) {
-            double input = Double.parseDouble(CLI_Interface.getStringInput(
+            double input = Double.parseDouble(AtmConsole.getStringInput(
             "In order to close the account you must transfer or withdraw all funds\n"
             +"1: Transfer\n"
             +"2: Withdraw"));
             if (input == 1) {
-                CLI_Interface.transferWithinAccounts();
+                AtmConsole.transferWithinAccounts();
             }
             else if (input == 2) {
-                CLI_Interface.withDrawAttempt("withdraw");
+                AtmConsole.withDrawAttempt("withdraw");
             }
 
         }
@@ -176,14 +176,14 @@ public class CLI_Interface {
 
     public static Account withDrawAttempt(String withdrawType) {
 
-        Account account = CLI_Interface.getAccountAttempt();
+        Account account = AtmConsole.getAccountAttempt();
         double accountBalance = account.getBalance();
         System.out.println("Your current balance is: "+String.format("$%,.2f",accountBalance));
 
         double withdrawAmount = Double.parseDouble(
-                CLI_Interface.getStringInput("Enter an amount you would like to "+withdrawType+"." ));
+                AtmConsole.getStringInput("Enter an amount you would like to "+withdrawType+"." ));
 
-        account = CLI_Interface.validWithdraw(account, withdrawAmount, withdrawType);
+        account = AtmConsole.validWithdraw(account, withdrawAmount, withdrawType);
 
         System.out.println("Your new balance is: "+String.format("$%,.2f",account.getBalance())+"\n");
         return account;
@@ -196,7 +196,7 @@ public class CLI_Interface {
             if (amount <= 0) {
                 System.out.println("Please enter an amount greater than 0.\n");
             }
-            amount = Double.parseDouble(CLI_Interface.getStringInput("Enter an amount you would like to "+depositType+"."));
+            amount = Double.parseDouble(AtmConsole.getStringInput("Enter an amount you would like to "+depositType+"."));
         }
 
         account.setBalance(accountBalance+amount);
@@ -205,14 +205,14 @@ public class CLI_Interface {
 
     public static Account depositAttempt(String depositType) {
 
-        Account account = CLI_Interface.getAccountAttempt();
+        Account account = AtmConsole.getAccountAttempt();
         double accountBalance = account.getBalance();
         System.out.println("Your current balance is: "+String.format("$%,.2f",accountBalance)+"\n");
 
         double depositAmount = Double.parseDouble(
-                CLI_Interface.getStringInput("Enter an amount you would like to "+depositType+"."));
+                AtmConsole.getStringInput("Enter an amount you would like to "+depositType+"."));
 
-        CLI_Interface.validDeposit(account, depositAmount, "deposit");
+        AtmConsole.validDeposit(account, depositAmount, "deposit");
 
         System.out.println("Your new balance is: "+String.format("$%,.2f",account.getBalance())+"\n");
         return account;

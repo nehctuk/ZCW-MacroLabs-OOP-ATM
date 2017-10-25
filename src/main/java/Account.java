@@ -11,6 +11,13 @@ public class Account {
         totalAccountNum++;
     }
 
+    public String getAccountType() { return accountType; }
+    public void setBalance(double balance) { this.balance = balance; }
+    public double getBalance() { return balance; }
+    public static void setTotalAccountNum(int totalAccountNum) { Account.totalAccountNum = totalAccountNum; }
+    public int getAccountNum() { return accountNum; }
+    public ArrayList<String> getTransactions() { return transactions; }
+
     public Account(String accountType) {
         this(accountType, 0);
     }
@@ -25,53 +32,15 @@ public class Account {
         this.accountNum = accountNum;
     }
 
-    public static int getTotalAccountNum() {
-        return totalAccountNum;
-    }
 
-    public static void setTotalAccountNum(int totalAccountNum) {
-        Account.totalAccountNum = totalAccountNum;
-    }
 
-    public void setAccountNum(int accountNum) {
-        this.accountNum = accountNum;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    public void setTransactions(ArrayList<String> transactions) {
-        this.transactions = transactions;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public int getAccountNum() {
-        return accountNum;
-    }
-
-    public ArrayList<String> getTransactions() {
-        return transactions;
-    }
-
-    @Override
-    public String toString() {
-        return "Account: " +
-                "accountNum: " + accountNum +
-                ", balance: " + String.format("$%.2f", balance) +
-                ", transactions: " + transactions +
-                ", accountType: '" + accountType + '\'';
-    }
+//    @Override
+//    public String toString() {
+//        return "Account: " +
+//                "accountNum: " + accountNum +
+//                ", balance: " + String.format("$%.2f", balance) +
+//                ", transactions: " + transactions +
+//                ", accountType: '" + accountType + '\'';
+//    }
 }
 

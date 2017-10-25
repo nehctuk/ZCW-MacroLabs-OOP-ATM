@@ -33,8 +33,6 @@ public class User {
         return output;
     }
 
-
-
     public String getAccountsToString() {
         String output = "";
         for (Account account : accounts) {
